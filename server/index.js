@@ -4,32 +4,35 @@ const path = require("path");
 const fs = require("fs");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+}));
+
 app.use(express.json());
 
-// Root route (IMPORTANT for testing)
+// Root route
 app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
 
-// Create users.json if not exists
+// DB setup
 const DB_FILE = path.join(__dirname, "users.json");
 
 if (!fs.existsSync(DB_FILE)) {
   fs.writeFileSync(DB_FILE, JSON.stringify([]));
 }
 
-// Make DB accessible
 app.locals.dbFile = DB_FILE;
 
-// Load routes
+// Routes
 const authRoutes = require("./routes/auth");
 app.use("/api", authRoutes);
 
-// Start server
-app.listen(PORT, () => {
+// 🔥 FIXED LISTEN
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
