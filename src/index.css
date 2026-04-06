@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 262 83% 58%;
+
+    --radius: 0.75rem;
+
+    /* Status colors */
+    --status-success: 152 69% 45%;
+    --status-success-foreground: 0 0% 100%;
+    --status-warning: 45 93% 58%;
+    --status-warning-foreground: 0 0% 10%;
+    --status-danger: 0 72% 55%;
+    --status-danger-foreground: 0 0% 100%;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 262 83% 58%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 262 83% 58%;
+    --sidebar-muted: 215 16% 47%;
+
+    /* Chart colors */
+    --chart-1: 270 60% 55%;
+    --chart-2: 152 69% 45%;
+    --chart-3: 45 93% 58%;
+    --chart-4: 330 70% 55%;
+    --chart-5: 190 80% 50%;
+  }
+
+  .dark {
+    --background: 222 47% 4%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 262 83% 66%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 96%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 262 83% 66%;
+
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 262 83% 66%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 262 83% 66%;
+    --sidebar-muted: 215 20% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border/15;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-primary {
+    @apply text-slate-900 dark:text-white;
+  }
+
+  .text-secondary {
+    @apply text-slate-700 dark:text-slate-300;
+  }
+
+  .text-muted-ui {
+    @apply text-slate-500 dark:text-slate-400;
+  }
+
+  .surface-card {
+    @apply border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900;
+  }
+
+  .surface-muted {
+    @apply border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950/60;
+  }
+
+  .field-surface {
+    @apply border-slate-200 bg-white text-slate-900 placeholder:text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-400;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 1rem;
+  }
+
+  .glass-card-elevated {
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 1rem;
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+  }
+
+  .glass-sidebar {
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-right: 1px solid rgba(148, 163, 184, 0.16);
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  }
+
+  .gradient-btn {
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  }
+
+  .gradient-btn:hover {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  }
+
+  .gradient-card-purple {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.1));
+    border: 1px solid rgba(139, 92, 246, 0.2);
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.3);
+  }
+
+  .shadow-glow-hover:hover {
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+  }
+
+  .status-dot {
+    @apply w-2.5 h-2.5 rounded-full inline-block;
+  }
+
+  .status-completed {
+    background-color: hsl(var(--status-success));
+  }
+
+  .status-pending {
+    background-color: hsl(var(--status-warning));
+  }
+
+  .status-not-submitted {
+    background-color: hsl(var(--status-danger));
+  }
+
+  .zebra-row:nth-child(even) {
+    background: rgba(241, 245, 249, 0.75);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .dark .glass-card {
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .glass-card-elevated {
+    background: rgba(15, 23, 42, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.28);
+  }
+
+  .dark .glass-sidebar {
+    background: rgba(15, 23, 42, 0.9);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .dark .zebra-row:nth-child(even) {
+    background: rgba(255, 255, 255, 0.03);
+  }
+}

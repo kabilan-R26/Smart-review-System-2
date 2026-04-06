@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1775389455413",
+    "email": "ramesh.2024@vitstudent.ac.in",
+    "password": "$2b$10$r.4TBGvin6XqQeHLJjLdjOrT.gqVm44/o8HHnAxbFXUUQ7U5vEzau",
+    "role": "student",
+    "name": "ramesh.2024",
+    "subjects": [],
+    "createdAt": "2026-04-05T11:44:15.413Z"
+  },
+  {
+    "id": "1775395298699",
+    "email": "kabilan.2024@vitstudent.ac.in",
+    "password": "$2b$10$G.XRvHvou/WUi0o70lhxYe5mPEFeV9MTQ02B3TZ3C/13sX0aObOg2",
+    "role": "student",
+    "name": "kabilan.2024",
+    "subjects": [],
+    "createdAt": "2026-04-05T13:21:38.699Z"
+  },
+  {
+    "id": "1775476455830",
+    "email": "rajesh.r@vitstudent.ac.in",
+    "password": "$2b$10$fPr2l.snlwwRu7Z9bA2SleXJAQXrSON/79Ym1L5KbIElqge7Suouq",
+    "role": "student",
+    "name": "rajesh.R",
+    "subjects": [],
+    "createdAt": "2026-04-06T11:54:15.830Z"
+  },
+  {
+    "id": "1775477342160",
+    "email": "suresh@vitfaculty.ac.in",
+    "password": "$2b$10$4xeEUL2bPtRgu7iIiQVTmu1EIYluYA1oRQsnv4P8VrxhwVqZEhO4q",
+    "role": "faculty",
+    "name": "suresh",
+    "subjects": [],
+    "createdAt": "2026-04-06T12:09:02.160Z"
+  }
+]
