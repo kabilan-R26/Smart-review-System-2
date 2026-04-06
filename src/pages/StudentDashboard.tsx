@@ -57,13 +57,13 @@ export default function StudentDashboard() {
       </div>
 
       <div className="max-w-[1400px] mx-auto space-y-8 px-4 sm:px-6 lg:px-8 pb-12">
-        
+
         {/* Main Grid: Sidebar (Calendar & Tasks) + Carousel */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           <div className="xl:col-span-2 space-y-8">
-             <SubjectCarousel subjects={subjects} reviews={reviews} />
+            <SubjectCarousel subjects={subjects} reviews={reviews} />
           </div>
-          
+
           <div className="xl:col-span-1 flex flex-col gap-6">
             <CalendarWidget />
             <TaskPanel />
