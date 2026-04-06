@@ -34,7 +34,7 @@ export default function StudentRegisterPage() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch("https://smart-review-system-2-1.onrender.com/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, role: "student" }),
