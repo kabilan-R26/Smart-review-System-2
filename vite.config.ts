@@ -33,7 +33,7 @@ function uploadMiddleware() {
         }
 
         try {
-          const request = new Request("http://localhost/upload", {
+          const request = new Request("https://resourceful-exploration-production-73e9.up.railway.app/upload", {
             method: "POST",
             headers: req.headers as HeadersInit,
             body: req,
@@ -100,7 +100,7 @@ export default defineConfig(({ mode }) => ({
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'https://resourceful-exploration-production-73e9.up.railway.app',
         changeOrigin: true,
       }
     }
