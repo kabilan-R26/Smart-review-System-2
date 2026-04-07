@@ -49,7 +49,7 @@ export default function StudentLoginPage() {
 
     setLoading(true);
     try {
-      const response = await fetch("/api/login", {
+      const response = await fetch("https://smart-review-system-2-1.onrender.com/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -162,7 +162,14 @@ export default function StudentLoginPage() {
                   </div>
                 )}
 
-                <form onSubmit={handleLogin} className="space-y-5">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    console.log("LOGIN FUNCTION CALLED"); // debug
+                    handleLogin(e);
+                  }}
+                  className="space-y-5"
+                >
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Student Email</Label>
                     <div className="relative">
