@@ -27,7 +27,10 @@ interface UploadQueueItem {
   error?: string;
 }
 
-const UPLOAD_ENDPOINT = import.meta.env.VITE_UPLOAD_URL ?? "/upload";
+const UPLOAD_ENDPOINT = "/api/upload";
+const PRODUCTION_FALLBACK_UPLOAD_ENDPOINT =
+  import.meta.env.VITE_PRODUCTION_UPLOAD_URL ??
+  "https://resourceful-exploration-production-73e9.up.railway.app/api/upload";
 
 const ALLOWED_EXTENSIONS = new Set(["pdf", "ppt", "pptx", "doc", "docx"]);
 const ALLOWED_MIME_TYPES = new Set([
@@ -53,10 +56,35 @@ function formatFileSize(size: number) {
   return `${(size / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+function resolveUploadUrl(rawUrl: string | undefined, endpoint: string) {
+  if (!rawUrl) return undefined;
+  if (/^https?:\/\//i.test(rawUrl)) return rawUrl;
+
+  try {
+    const baseOrigin = endpoint.startsWith("http")
+      ? new URL(endpoint).origin
+      : window.location.origin;
+    return new URL(rawUrl, baseOrigin).toString();
+  } catch {
+    return rawUrl;
+  }
+}
+
+function getUploadEndpoints() {
+  const endpoints = [UPLOAD_ENDPOINT];
+
+  if (import.meta.env.PROD && UPLOAD_ENDPOINT.startsWith("/")) {
+    endpoints.push(PRODUCTION_FALLBACK_UPLOAD_ENDPOINT);
+  }
+
+  return Array.from(new Set(endpoints.filter(Boolean)));
+}
+
 function createStoredFileRecord(
   file: File,
   studentId: string,
   subjectId: string,
+  endpoint: string,
   payload?: { id?: string; url?: string; fileUrl?: string },
 ): FileRecord {
   return {
@@ -67,7 +95,7 @@ function createStoredFileRecord(
     fileType: getFileExtension(file.name) || file.type || "file",
     fileSize: formatFileSize(file.size),
     uploadDate: new Date().toISOString().split("T")[0],
-    uploadUrl: payload?.url || payload?.fileUrl,
+    uploadUrl: resolveUploadUrl(payload?.url || payload?.fileUrl, endpoint),
   };
 }
 
@@ -182,7 +210,7 @@ export default function StudentSubjectDetailPage() {
     addFilesToQueue(Array.from(event.dataTransfer.files));
   };
 
-  const uploadSingleFile = (item: UploadQueueItem) =>
+  const uploadThroughEndpoint = (item: UploadQueueItem, endpoint: string) =>
     new Promise<FileRecord>((resolve, reject) => {
       const formData = new FormData();
       formData.append("file", item.file);
@@ -191,7 +219,7 @@ export default function StudentSubjectDetailPage() {
       formData.append("subjectName", subject.name);
 
       const xhr = new XMLHttpRequest();
-      xhr.open("POST", UPLOAD_ENDPOINT, true);
+      xhr.open("POST", endpoint, true);
 
       xhr.upload.addEventListener("progress", (event) => {
         if (!event.lengthComputable) return;
@@ -212,12 +240,30 @@ export default function StudentSubjectDetailPage() {
           payload = undefined;
         }
 
-        resolve(createStoredFileRecord(item.file, user.id, id, payload));
+        resolve(createStoredFileRecord(item.file, user.id, id, endpoint, payload));
       });
 
       xhr.addEventListener("error", () => reject(new Error("Upload failed. Check your network or backend endpoint.")));
       xhr.send(formData);
     });
+
+  const uploadSingleFile = async (item: UploadQueueItem) => {
+    const endpoints = getUploadEndpoints();
+    let lastError: unknown = null;
+
+    for (const endpoint of endpoints) {
+      updateQueueItem(item.id, (current) => ({ ...current, progress: 0 }));
+      try {
+        return await uploadThroughEndpoint(item, endpoint);
+      } catch (error) {
+        lastError = error;
+      }
+    }
+
+    throw (lastError instanceof Error
+      ? lastError
+      : new Error("Upload failed. No upload endpoint could be reached."));
+  };
 
   const uploadSelectedFiles = async () => {
     const pendingItems = uploadQueue.filter((item) => item.status === "pending" || item.status === "error");
